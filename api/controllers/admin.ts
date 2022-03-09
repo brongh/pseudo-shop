@@ -19,7 +19,7 @@ router.get("/shop", async (req: Request, res: Response) => {
     if (!userId) {
       return res.status(400).send("No user Id");
     }
-    const shopData = await Users.find({ _id: userId });
+    const shopData = await Users.findOne({ _id: userId }).populate("products");
 
     res.status(200).send(shopData);
   } catch (error) {

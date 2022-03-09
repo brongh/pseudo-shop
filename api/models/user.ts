@@ -5,7 +5,7 @@ const userSchema = new mongoose.Schema({
   password: { type: String, required: true },
   token: { type: String },
   products: [{ type: mongoose.Types.ObjectId, ref: "products" }],
-  shopName: { type: String },
+  name: { type: String },
 });
 
 const Users = mongoose.model("users", userSchema);
