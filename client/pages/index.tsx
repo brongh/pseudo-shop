@@ -35,7 +35,7 @@ const Home: NextPage = () => {
 
   useEffect(() => {
     if (isLoggedIn) {
-      console.log("not logged in");
+      router.push("/dashboard");
     } else if (error && error.errorCode) {
       setErrorM(error.errorMessage);
     }

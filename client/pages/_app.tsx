@@ -6,6 +6,9 @@ import App from "next/app";
 import wrapper from "../store";
 import { END } from "redux-saga";
 import { SagaStore } from "../types/store";
+import { ReactReduxContext, useDispatch } from "react-redux";
+import { useEffect } from "react";
+import { fetchUserAction } from "../store/auth/actions";
 
 class MyApp extends App<AppInitialProps> {
   public static getInitialProps = wrapper.getInitialAppProps(
@@ -14,7 +17,7 @@ class MyApp extends App<AppInitialProps> {
         const pageProps = {
           ...(Component.getInitialProps
             ? await Component.getInitialProps(ctx)
-            : { pathname: ctx.pathname }),
+            : {}),
         };
         if (ctx.req) {
           store.dispatch(END);
@@ -36,6 +39,7 @@ class MyApp extends App<AppInitialProps> {
 
     return (
       <Layout>
+        <GetUserStatus />
         <Component {...pageProps} />
       </Layout>
     );
@@ -43,3 +47,11 @@ class MyApp extends App<AppInitialProps> {
 }
 
 export default wrapper.withRedux(MyApp);
+
+const GetUserStatus = () => {
+  const dispatch = useDispatch();
+  useEffect(() => {
+    dispatch(fetchUserAction());
+  }, []);
+  return null;
+};

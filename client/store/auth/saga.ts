@@ -81,7 +81,7 @@ function* login(): any {
       } else {
         yield put({
           type: actions.FETCH_LOGIN + FAIL,
-          payload: data,
+          payload: data.error,
         });
       }
     } catch (error: any) {
@@ -93,7 +93,7 @@ function* login(): any {
   }
 }
 
-const verifyUser = async (token: string) => {
+export const verifyUser = async (token: string) => {
   const data = await instance
     .get("/auth/")
     .then((res: any) => {
@@ -104,24 +104,31 @@ const verifyUser = async (token: string) => {
       const errorMessage = err.response.data;
       return { error: { errorCode, errorMessage } };
     });
-  return { data };
+  return data;
 };
 
 function* fetchUser(): any {
   while (true) {
     try {
-      const token = getAuthToken();
       yield take(actions.FETCH_USER + START);
+      const token = getAuthToken();
       if (!token) {
         yield put({
           type: actions.FETCH_USER + FAIL,
         });
       } else {
-        const { data } = yield verifyUser(token);
-        yield put({
-          type: actions.FETCH_USER + SUCCESS,
-          payload: data,
-        });
+        const data = yield verifyUser(token);
+        if (data.status === true) {
+          yield put({
+            type: actions.FETCH_USER + SUCCESS,
+            payload: data.user,
+          });
+        } else {
+          removeAuthToken();
+          yield put({
+            type: actions.FETCH_USER + FAIL,
+          });
+        }
       }
     } catch (error) {
       yield put({
@@ -139,5 +146,6 @@ function* logout(): any {
 }
 
 export default function* authSaga() {
-  yield all([fork(login), fork(fetchUser), fork(logout), fork(signup)]);
+  yield all([fork(login), fork(logout), fork(signup), fork(fetchUser)]);
 }
+// fork(fetchUser),

@@ -24,9 +24,8 @@ const SignupPage = () => {
   });
 
   useEffect(() => {
-    console.log(userData);
     if (isLoggedIn) {
-      console.log("logged in");
+      router.push("/dashboard");
     } else if (error && error.errorCode) {
       setErrorM(error.errorMessage);
     }

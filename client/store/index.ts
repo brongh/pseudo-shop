@@ -15,7 +15,7 @@ const makeStore = (context: Context) => {
     rootReducer(),
     composeWithDevTools(applyMiddleware(sagaMiddleware))
   );
-  (store as SagaStore).sagaTask = sagaMiddleware.run(rootSaga, store.dispatch);
+  (store as SagaStore).sagaTask = sagaMiddleware.run(rootSaga);
 
   return store;
 };

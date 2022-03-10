@@ -63,7 +63,8 @@ const reducer = handleActions<AuthState, any>(
       produce(state, (draft) => {
         draft.isLoggedIn = false;
         draft.authorizing = false;
-        draft.error = payload?.error;
+        draft.error = payload;
+        // draft.error = payload.error;
       }),
     [actions.FETCH_USER + START]: (state, { payload }) =>
       produce(state, (draft) => {
@@ -76,17 +77,15 @@ const reducer = handleActions<AuthState, any>(
         draft.isLoggedIn = true;
         draft.authorizing = false;
         draft.error = undefined;
-        draft.user = payload.data;
+        draft.user = payload;
       }),
     [actions.FETCH_USER + FAIL]: (state, { payload }) =>
       produce(state, (draft) => {
         draft.isLoggedIn = false;
         draft.authorizing = false;
-        draft.error = payload?.error;
+        draft.error = undefined;
       }),
-    [actions.LOG_OUT]: (state) => {
-      return { ...initialState };
-    },
+    [actions.LOG_OUT]: () => ({ ...initialState }),
   },
 
   initialState
