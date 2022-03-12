@@ -3,14 +3,20 @@ import Users from "../models/user";
 
 import bcrypt from "bcryptjs";
 import jwt from "jsonwebtoken";
+import verifyToken from "../middlewares/auth";
 
 const router = express.Router();
 
-router.get("/", async (req: Request, res: Response) => {
+router.get("/", verifyToken, async (req: Request, res: Response) => {
   try {
-    return res.status(200).send("token good");
+    const obj: any = req.user;
+    const resData = {
+      _id: obj.user_id,
+      email: obj.email,
+    };
+    return res.status(200).send({ status: true, user: resData });
   } catch (error) {
-    return res.status(400).send("token not good");
+    return res.status(400).send({ status: false });
   }
 });
 
@@ -55,7 +61,6 @@ router.post("/register", async (req: Request, res: Response) => {
 router.post("/login", async (req: Request, res: Response) => {
   try {
     const { email, password } = req.body;
-    console.log(req.body);
 
     if (!(email && password)) {
       res.status(400).send("All input required");

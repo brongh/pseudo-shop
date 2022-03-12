@@ -71,10 +71,10 @@ router.put("/products", async (req: Request, res: Response) => {
     if (!productId || !payload.title || !payload.SKU) {
       return res.status(400).send("Insufficient parameters");
     }
-
-    const updatedProduct = await Products.findOneAndUpdate(productId, payload, {
-      new: true,
-    });
+    const updatedProduct = await Products.findOneAndUpdate(
+      { _id: productId },
+      payload
+    );
     res.status(200).send(updatedProduct);
   } catch (error) {
     console.log(error);
@@ -100,7 +100,6 @@ router.delete("/products", async (req: Request, res: Response) => {
         new: true,
       }
     );
-    console.log(updatedInventory);
 
     res.status(200).send("Product deleted: " + productId);
   } catch (error) {
