@@ -1,15 +1,15 @@
 # pseudo-shop
 
-## Get Started
+# Get Started
 
-# - install packages. cd api && yarn, cd frontend && yarn
+## - install packages. cd api && yarn, cd frontend && yarn
 
-# - Create .env file in ./api with 'TOKEN_KEY' = any value you want
+## - Create .env file in ./api with 'TOKEN_KEY' = any value you want
 
-# - Make sure mongodb is installed in your computer
+## - Make sure mongodb is installed in your computer
 
-# - cd api & yarn dev / yarn start
+## - cd api & yarn dev / yarn start
 
-# - cd frontend & yarn build + yarn start / yarn dev
+## - cd frontend & yarn build + yarn start / yarn dev
 
-# - Open up browser with url: localhost:3000
+## - Open up browser with url: localhost:3000
